@@ -104,7 +104,7 @@ Enter these cmds at the prompt
 
 - tidydata.txt
 
-and it should be about 158KB in size
+and it should be about 268KB in size
 
 
 The "tidaydata.txt" file contains the summarized analysis we're interested in.
