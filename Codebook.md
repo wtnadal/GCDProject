@@ -1,7 +1,7 @@
 # Codebook.md
 Bill Nadal  
 December 17, 2014  
-"May you live in times of interesting data" - Bill Nadal
+*"May you live in times of interesting data"* - Bill Nadal
 
 - Codebook for the project in Coursera's "Getting and Cleaning Data"
 - In support of the run_analysis.R script 
@@ -9,29 +9,67 @@ December 17, 2014
 - Course date is Dec 1 - Dec 21 (2014)
 - Instructors are Jeff Leek, PhD, Roger D. Peng, PhD, Brian Caffo, PhD
 
+### Note for my fellow Coursera project evaluators  
+*This codebook is intended to help readers understand the source data files, 
+the transformation steps, the order of transformation, and the final result 
+(tidydata file).  I am using the "Knit" feature in R Studio, which creates 
+the .md file, and can execute and embed R code and output within the .md file.
+I have used the echo=FALSE option, which will include the R code in the .md file.
+This was necessary as I use the str(dataset) function to display relevant information 
+about the data sets, and by setting echo=FALSE the dataset name is also displayed for 
+reference and documentation.*
+
+*For accessibility and ease of access, this Codebook.md has appended the 
+researchers "readme.txt" file contents at the end of this codebook. The readme provides
+the details for the data collected and the relationships between the files.*
+
+### Overview and background info
 The original data file used in this analysis was manually downloaded 
 from the UCI Machine Learning website and manually unzipped under 
-the current working directory, e.g. "~/Data"
-The download URL:
-- https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+the current working directory, e.g. "~/Data".
 
-The original reseachers overview and additional readme.txt file is at this URL:
-- http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+The original data file can be downloaded at this link:  
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-Note: For accessibility and ease of access, this Codebook.md has appended the 
-researchers "readme.txt" file contents at the end of this codebook.  It provides
-the details for the data collected and the relationships between the files.
+The original reseachers overview and additional readme.txt file is at this link:  
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+Hadley Wickham, in his document *"Tidy Data"* decscribes the goals, motivations, 
+and approaches for cleaning and transforming data and observations into
+tidy data files. http://www.jstatsoft.org/v59/i10/paper
+
+*"Tidy datasets are easy to manipulate, model and visualise, and have a
+specific structure: each variable is a column, each observation is a row,
+and each type of observational unit is a table." - HW*
 
 Our goal is to take several large corpuses of smartphone physical observations 
-from anonymous subjects across 5 types of physical activities, focused on the
+from anonymous subjects across 6 types of physical activities, focused on the
 mean and standard deviations form the measurements. Summarizing and grouping 
-all this data in a "tidydata.txt" file about 268KB in size
+all this data in a "tidydata.txt" file about 268KB in size.
 
-It is an independent tidy data set with the average (mean) of
+Their are several places to start with this set of files, with the goal of
+achieving a data file with the characteristics in Hadley's quote above.
+
+We will merge like data sets, assign descriptive column names, assign 
+descriptive names to numeric code values, and bring all this together into
+a single table, and finally group and summarize this large table into a
+smaller and more relevant table.
+
+In our project the data in the files represents the following:
+Subjects (1:30) who perform Activities (1:6) that are Measured/Recorded (1:561) 
+as many different type of variables, but still grouped within certain 
+measurement types and recording sources (e.g. Triaxial acceleration from the 
+accelerometer and estimated body acceleration from the gyroscope). 
+
+### The Goal
+
+An independent tidy data set with the average (mean) of
 
  - each variable (smartphone measurements as means or std)
- - for each activity (WALKING, SITTING, STANDING, ...)
- - for each subject (anonymous userid, i.e. 1, 2, 3, ...)
+ - for each activity (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
+ - for each subject (anonymous userid, i.e. 1, 2, 3, ..., 30)
+
+### The raw data files used in this analysis
 
 The followinmg unzipped raw data files are used in my analysis and include
 the row & col counts (dim) for each of the selected and unzipped data files:
@@ -45,9 +83,8 @@ the row & col counts (dim) for each of the selected and unzipped data files:
 - Y_test.txt            (2947 x   1)
 - activity_labels.txt      (6 x   2)
 
-### Read each file into R and give a descriptive file name
+### Start of the processing steps in the run_analysis.R script
 
-### The test files
 
 ```
 ## 
@@ -62,6 +99,9 @@ the row & col counts (dim) for each of the selected and unzipped data files:
 ##     intersect, setdiff, setequal, union
 ```
 
+### Read each file into R and give a descriptive file name
+
+### The test files
 
 ```r
 setwd("~/Data")    
